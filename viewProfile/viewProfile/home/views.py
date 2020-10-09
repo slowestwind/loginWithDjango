@@ -3,8 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
-from django.contrib.auth import authenticate
-
+from django.contrib.auth import authenticate, login
 
 def index(request):
     #checking if the user is anonymous
@@ -23,14 +22,16 @@ def loginUser(request):
 
         # check if user has entered correct credentials
         user = authenticate(username=username, password=password)
+        print(user)
 
         if user is not None:
             # A backend authenticated the credentials
             login(request, user)
-            return redirect("/")
+            return redirect('/')
 
         else:
             # No backend authenticated the credentials
+            print("not authenticate")
             return render(request, 'login.html')
 
     return render(request, 'login.html')
